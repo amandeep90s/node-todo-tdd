@@ -1,6 +1,6 @@
 const TodoModel = require('../models/todo.model');
 
-const createTodo = () => {
+const createTodo = (req, res, next) => {
   TodoModel.create();
 };
 
