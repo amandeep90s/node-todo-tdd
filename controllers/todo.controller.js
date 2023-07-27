@@ -1,5 +1,7 @@
+const TodoModel = require('../models/todo.model');
+
 const createTodo = () => {
-  console.log('Create todo');
+  TodoModel.create();
 };
 
 module.exports = { createTodo };
