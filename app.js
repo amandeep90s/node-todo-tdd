@@ -10,11 +10,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/todos', todoRoutes);
 
 app.get('/', (req, res, next) => {
-  res.send('<h1>Hello world</h1>');
+  res.json({ data: 'Hello world' });
 });
 
-app.listen(3000, () => {
-  console.log('App is running on http://localhost:3000');
-});
+// app.listen(3000, () => {
+//   console.log('App is running on http://localhost:3000');
+// });
 
 module.exports = app;
