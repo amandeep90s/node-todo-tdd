@@ -12,6 +12,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/todos', todoRoutes);
 
+app.use((error, req, res, next) => {
+  res.status(500).json({ message: error.message });
+});
+
 app.get('/', (req, res, next) => {
   res.json({ data: 'Hello world' });
 });
