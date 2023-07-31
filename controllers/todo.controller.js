@@ -23,7 +23,7 @@ const createTodo = async (req, res, next) => {
  */
 const getTodos = async (req, res, next) => {
   try {
-    const getTodos = await TodoModel.find();
+    const getTodos = TodoModel.find({});
     res.status(200).json(getTodos);
   } catch (error) {
     next(error);

@@ -4,6 +4,7 @@ const TodoModel = require('../../models/todo.model');
 const newTodo = require('../mock-data/new-todo.json');
 
 TodoModel.create = jest.fn();
+TodoModel.find = jest.fn();
 
 let req, res, next;
 
@@ -16,6 +17,11 @@ beforeEach(() => {
 describe('TodoController.getTodos', () => {
   it('should have a getTodos method', () => {
     expect(typeof TodoController.getTodos).toBe('function');
+  });
+
+  it('should call TodoModel.find({})', async () => {
+    await TodoController.getTodos(req, res, next);
+    expect(TodoModel.find).toHaveBeenCalledWith({});
   });
 });
 
