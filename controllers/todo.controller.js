@@ -5,6 +5,7 @@ const TodoModel = require('../models/todo.model');
  * @param {*} req
  * @param {*} res
  * @param {*} next
+ * @return {Promise}
  */
 const createTodo = async (req, res, next) => {
   try {
@@ -20,6 +21,7 @@ const createTodo = async (req, res, next) => {
  * @param {*} req
  * @param {*} res
  * @param {*} next
+ * @return {Promise}
  */
 const getTodos = async (req, res, next) => {
   try {
@@ -30,4 +32,21 @@ const getTodos = async (req, res, next) => {
   }
 };
 
-module.exports = { createTodo, getTodos };
+/**
+ * Get Todo by id
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ * @return {Promise}
+ */
+const getTodoById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const todo = await TodoModel.findById(id);
+    res.status(200).json(todo);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { createTodo, getTodos, getTodoById };
