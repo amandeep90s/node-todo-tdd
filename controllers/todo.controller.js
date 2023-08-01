@@ -43,6 +43,9 @@ const getTodoById = async (req, res, next) => {
   try {
     const { id } = req.params;
     const todo = await TodoModel.findById(id);
+    if (!todo) {
+      return res.status(404).json({ message: 'Not Found' });
+    }
     res.status(200).json(todo);
   } catch (error) {
     next(error);
