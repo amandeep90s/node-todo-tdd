@@ -90,10 +90,18 @@ describe('TodoController.getTodoById', () => {
   });
 
   it('should return json body and response code  200', async () => {
-    TodoModel.findById(newTodo);
+    TodoModel.findById.mockReturnValue(newTodo);
     await TodoController.getTodoById(req, res, next);
     expect(res.statusCode).toBe(200);
     expect(res._getJSONData()).toStrictEqual(newTodo);
     expect(res._isEndCalled()).toBeTruthy();
+  });
+
+  it('should handle errors', async () => {
+    const errorMessage = { message: 'Todo is not found' };
+    const rejectedPromise = Promise.reject(errorMessage);
+    TodoModel.findById.mockReturnValue(rejectedPromise);
+    await TodoController.getTodoById(req, res, next);
+    expect(next).toHaveBeenCalledWith(errorMessage);
   });
 });
