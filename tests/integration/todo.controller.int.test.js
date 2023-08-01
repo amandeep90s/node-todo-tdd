@@ -39,4 +39,11 @@ describe(endpointUrl, () => {
     expect(response.body.title).toBe(firstTodo.title);
     expect(response.body.done).toBe(firstTodo.done);
   });
+
+  test(`Get todo by Id does not exist ${endpointUrl}:id`, async () => {
+    const response = await request(app).get(
+      `${endpointUrl}64c7dbedcc117bb8a7864afc`
+    );
+    expect(response.statusCode).toBe(404);
+  });
 });
