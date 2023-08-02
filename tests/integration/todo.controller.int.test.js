@@ -4,6 +4,8 @@ const newTodo = require('../mock-data/new-todo.json');
 
 const endpointUrl = '/todos/';
 let firstTodo, newTodoId;
+const nonExistingTodoId = '64c7dbedcc117bb8a7864afc';
+const testData = { title: 'Make integration test for PUT', done: true };
 
 describe(endpointUrl, () => {
   it(`POST ${endpointUrl}`, async () => {
@@ -26,7 +28,6 @@ describe(endpointUrl, () => {
 
   test(`GET ${endpointUrl}`, async () => {
     const response = await request(app).get(endpointUrl);
-
     expect(response.statusCode).toEqual(200);
     expect(Array.isArray(response.body)).toBeTruthy();
     expect(response.body[0].title).toBeDefined();
@@ -43,13 +44,12 @@ describe(endpointUrl, () => {
 
   test(`Get todo by Id does not exist ${endpointUrl}:id`, async () => {
     const response = await request(app).get(
-      `${endpointUrl}64c7dbedcc117bb8a7864afc`
+      `${endpointUrl}${nonExistingTodoId}`
     );
     expect(response.statusCode).toBe(404);
   });
 
   test(`PUT ${endpointUrl}`, async () => {
-    const testData = { title: 'Make integration test for PUT', done: true };
     const response = await request(app)
       .put(`${endpointUrl}${newTodoId}`)
       .send(testData);
@@ -59,10 +59,25 @@ describe(endpointUrl, () => {
   });
 
   test(`Update todo by Id does not exist ${endpointUrl}:id`, async () => {
-    const testData = { title: 'Make integration test for PUT', done: true };
     const response = await request(app)
-      .put(`${endpointUrl}64c7dbedcc117bb8a7864afc`)
+      .put(`${endpointUrl}${nonExistingTodoId}`)
       .send(testData);
+    expect(response.statusCode).toBe(404);
+  });
+
+  test('HTTP Delete', async () => {
+    const response = await request(app)
+      .delete(`${endpointUrl}${newTodoId}`)
+      .send();
+    expect(response.statusCode).toBe(201);
+    expect(response.body.title).toBe(testData.title);
+    expect(response.body.done).toBe(testData.done);
+  });
+
+  test('HTTP DELETE 404', async () => {
+    const response = await request(app)
+      .delete(`${endpointUrl}${nonExistingTodoId}`)
+      .send();
     expect(response.statusCode).toBe(404);
   });
 });
