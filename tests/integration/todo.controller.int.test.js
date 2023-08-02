@@ -57,4 +57,12 @@ describe(endpointUrl, () => {
     expect(response.body.title).toBe(testData.title);
     expect(response.body.done).toBe(testData.done);
   });
+
+  test(`Update todo by Id does not exist ${endpointUrl}:id`, async () => {
+    const testData = { title: 'Make integration test for PUT', done: true };
+    const response = await request(app)
+      .put(`${endpointUrl}64c7dbedcc117bb8a7864afc`)
+      .send(testData);
+    expect(response.statusCode).toBe(404);
+  });
 });
