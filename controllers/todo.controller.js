@@ -82,7 +82,7 @@ const deleteTodo = async (req, res, next) => {
     if (!deletedTodo) {
       return res.status(404).json({ message: 'Not Found' });
     }
-    res.status(201).json({ message: 'Successfully deleted' });
+    res.status(201).json(deletedTodo);
   } catch (error) {
     next(error);
   }
