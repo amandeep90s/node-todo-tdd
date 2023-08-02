@@ -159,3 +159,9 @@ describe('TodoController.updateTodo', () => {
     expect(res._isEndCalled()).toBeTruthy();
   });
 });
+
+describe('TodoContoller.deleteTodo', () => {
+  it('should have a deleteTodo method', () => {
+    expect(typeof TodoController.deleteTodo).toBe('function');
+  });
+});
