@@ -62,7 +62,9 @@ const getTodoById = async (req, res, next) => {
 const updateTodo = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const updatedTodo = await TodoModel.findByIdAndUpdate(id, req.body);
+    const updatedTodo = await TodoModel.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
     res.status(200).json(updatedTodo);
   } catch (error) {
     next(error);

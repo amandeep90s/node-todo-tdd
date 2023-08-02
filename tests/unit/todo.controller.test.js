@@ -7,8 +7,10 @@ const allTodos = require('../mock-data/all-todos.json');
 TodoModel.create = jest.fn();
 TodoModel.find = jest.fn();
 TodoModel.findById = jest.fn();
+TodoModel.findByIdAndUpdate = jest.fn();
 
 let req, res, next;
+const todoId = '64c8fbd448612695776ed5df';
 
 beforeEach(() => {
   req = httpMocks.createRequest();
@@ -84,9 +86,9 @@ describe('TodoController.getTodoById', () => {
   });
 
   it('should call TodoModel.finById with route paramteres', async () => {
-    req.params.id = '64c8fbd448612695776ed5df';
+    req.params.id = todoId;
     await TodoController.getTodoById(req, res, next);
-    expect(TodoModel.findById).toBeCalledWith('64c8fbd448612695776ed5df');
+    expect(TodoModel.findById).toBeCalledWith(todoId);
   });
 
   it('should return json body and response code  200', async () => {
@@ -116,5 +118,15 @@ describe('TodoController.getTodoById', () => {
 describe('TodoController.updateTodo', () => {
   it('should have a updateTodo method', () => {
     expect(typeof TodoController.updateTodo).toBe('function');
+  });
+
+  it('should update with TodoModel.findByIdAndUpdate', async () => {
+    req.params.id = todoId;
+    req.body = newTodo;
+    await TodoController.updateTodo(req, res, next);
+
+    expect(TodoModel.findByIdAndUpdate).toHaveBeenCalledWith(todoId, newTodo, {
+      new: true,
+    });
   });
 });
